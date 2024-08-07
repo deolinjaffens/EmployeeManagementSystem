@@ -1,30 +1,13 @@
 package com.ideas2it.department.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import org.hibernate.HibernateException; 
-import org.hibernate.Session; 
-import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import com.ideas2it.model.Department;
 import com.ideas2it.util.exception.DatabaseException;
-import com.ideas2it.config.drivermanager.DriverManagerConfig;
-import com.ideas2it.model.Employee;
 
 /**
  *<p>
- *Stores and retrives informations from the database
+ *Stores and retrieves required details from the database
  *</p>
  *@author Deolin Jaffens
  */
@@ -39,14 +22,13 @@ public interface DepartmentDao {
      *@throws DatabaseException
      */
 
-    public void addDepartment(Department department) throws DatabaseException;
+    public int addDepartment(Department department) throws DatabaseException;
 
 
     /**
 	 *<p>
      *Extracts department from the Set departmentData
      *</p>
-     *@param departments - Extracts every department details and stores it
      *@return Set<Department>
      *@throws DatabaseException
      */    
@@ -84,15 +66,4 @@ public interface DepartmentDao {
      */
 
     public void removeDepartment(int id)  throws DatabaseException;
-
-    /**
-	 *<p>
-     *Check wheather the Set is empty
-     *</p>
-     *@return boolean
-     *@throws DatabaseException
-     */
-
-    public boolean checkForDepartment() throws DatabaseException;
-
 } 

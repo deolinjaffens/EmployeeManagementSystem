@@ -1,22 +1,15 @@
 package com.ideas2it.department.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
-import com.ideas2it.department.dao.DepartmentDao;
-import com.ideas2it.department.dao.DepartmentDaoImpl;
-import com.ideas2it.employee.service.EmployeeService;
-import com.ideas2it.employee.service.EmployeeServiceImpl;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.model.Department;
-import com.ideas2it.model.Employee;
 
 /**
+ * <p>
  *Connects Controller to the Dao
- *
- *@Deolin Jaffens
+ *</p>
+ *@author Deolin Jaffens
  */
 
 public interface DepartmentService {
@@ -26,10 +19,9 @@ public interface DepartmentService {
      *The newly formed department is passed to the Dao
      *
      *@param name - name of the department
-     *@param id - id of the department
      */
 
-    public void addDepartment(String name) throws DatabaseException;
+    public int addDepartment(String name) throws DatabaseException;
 
     /**
      *Extracts all the departments from the Dao
@@ -59,7 +51,7 @@ public interface DepartmentService {
     public void removeDepartment(int id) throws DatabaseException;
 
     /**
-     *Checks wheather there is any department in the database
+     *Check for the availability of any department in the database
      *
      *@return boolean
      */

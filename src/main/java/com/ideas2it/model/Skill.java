@@ -3,16 +3,7 @@ package com.ideas2it.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.ideas2it.model.Employee;
 
@@ -20,7 +11,7 @@ import com.ideas2it.model.Employee;
  *<p>
  *All the details of a particular skill is initialised
  *</p>
- *@Deolin Jaffens
+ *@author Deolin Jaffens
  */
 
 @Entity
@@ -35,7 +26,7 @@ public class Skill implements Serializable {
 	@Column(name = "name")
     private String name;
     
-	@ManyToMany(mappedBy = "skills") 
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "skills")
     private Set<Employee> employees;
 
     public String getName() {
@@ -53,8 +44,6 @@ public class Skill implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
-    //Extract employees who are able conversent in a specific programming language
 
     public Set<Employee> getEmployees() {
         return employees;

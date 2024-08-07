@@ -1,15 +1,9 @@
 package com.ideas2it.employee.service;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import com.ideas2it.model.Department;
-import com.ideas2it.department.service.DepartmentService;
-import com.ideas2it.department.service.DepartmentServiceImpl;
-import com.ideas2it.employee.dao.EmployeeDao;
-import com.ideas2it.employee.dao.EmployeeDaoImpl;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.model.Employee;
 
@@ -29,20 +23,17 @@ public interface EmployeeService {
      *</p>
      *@param name - name of the employee to be added
      *@param dob - date of birth of the employee
-     *@param departmentName - name of the department to which the employee has joined
-     *@param departmentId - id of the department to which the employee has joined
-     *@param id - id that has to be provided to the employee
      *@param gender - gender of the employee
-     *@param PhNum - phone number of the employee
+     *@param phNum - phone number of the employee
      *@param salary - salary of the employee
      *@throws DatabaseException 
      */
 
-     public void addEmployee(String name, LocalDate dob, Department department, char gender, long phNum, double salary) throws DatabaseException; 
+     public int addEmployee(String name, LocalDate dob, char gender, long phNum, double salary) throws DatabaseException;
      
      /**
 	  *<p>
-      *Checks wheather the details of the specific employee should be viewed
+      *Checks whether the details of the specific employee should be viewed
       *</p>
       *@param id - id of employee to be checked and extracted 
       *@return Employee
@@ -93,16 +84,16 @@ public interface EmployeeService {
 	 
 	 /**
 	  *<p>
-	  *Extracts all the department from the database with the help of the service
-	  *layer in department
+	  *Adds employee to a specific department
 	  *</p>
-	  *@param id - id of the department to be extracted
+	  *@param id - id of the employee to be added to a department
+	  *@param departmentId - id of the department where employee has to be added
 	  *return Department
 	  *throws DatabaseException
 	  */
 	  
-	  public Department getDepartment(int id) throws DatabaseException;
-	  
+	  public void addDepartmentToEmployee(int id, int departmentId) throws DatabaseException;
+
 	  /**
 	   *<p>
 	   *Extracts all the departments from the database

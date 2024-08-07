@@ -15,36 +15,40 @@ import com.ideas2it.skill.dao.SkillDaoImpl;
  *Implements the skill interface
  *Connects controller to the dao
  *</p>
- *@Deolin Jaffens
+ *@author Deolin Jaffens
  */ 
 
 public class SkillServiceImpl implements SkillService {
     SkillDao skillDao = new SkillDaoImpl();
 	EmployeeService employeeService = new EmployeeServiceImpl();
 
-    public int addSkill(String name, Employee employee) throws DatabaseException{
+    public int addSkill(String name) throws DatabaseException{
         Skill skill = new Skill(name);
-        return skillDao.addSkill(skill, employee);
+        return skillDao.insertSkill(skill);
     }
 
-    public Set<Skill> getAllSkills(Employee employee) throws DatabaseException {
-        return skillDao.getAllSkills(employee);
+    public List<Skill> getAllSkills() {
+        return skillDao.getAllSkills();
     }
 
-    public void updateSkill(Employee employee, int id, String name) throws DatabaseException {
-        skillDao.updateSkill(employee, id, name);
+    public void updateSkill(int id, String name) throws DatabaseException {
+        skillDao.updateSkill(id, name);
     }
 
-    public void removeSkill(int id, Employee employee) throws DatabaseException {
-        skillDao.removeSkill(id, employee);
+    public void insertSkillToEmployee(int id, int employee id) throws DatabaseException {
+        employeeService.getEmployee(id).getSkills().add(getSkill(id));
     }
 
-    public Set<Employee> getEmployees(int id) throws DatabaseException {
-        return skillDao.getEmployees(id);
+    public void removeSkillFromEmployee(int id, int employeeId) throws DatabaseException {
+        skillDao.removeSkillFromEmployee(id, employeeId);
+    }
+
+    public Set<Employee> getEmployeesBySkill(int id) throws DatabaseException {
+        return skillDao.getSkill(id).getEmployees();
     }
 	 
-	public Employee getEmployee(int id) throws DatabaseException{
-		return employeeService.getEmployee(id);
+	public List<Skills> getSkillsByEmployee(int id) throws DatabaseException{
+		return employeeService.getEmployee(id).getSkills().list();
 	}
     
 }

@@ -1,25 +1,20 @@
 package com.ideas2it.department.controller;
 
-import java.sql.SQLException;
 import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Set;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
 
 import com.ideas2it.model.Department;
 import com.ideas2it.department.service.DepartmentService;
 import com.ideas2it.department.service.DepartmentServiceImpl;
-import com.ideas2it.employee.controller.EmployeeController;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.model.Employee;
 
 /**
  *<p>
- *Creation,Updation,removal and viewing of  department is done.
+ *Creation,Edition,removal and viewing of  department is done.
  *Initialisation and extraction of details related to department are given and 
  *obtained
  *</p>
@@ -29,8 +24,7 @@ import com.ideas2it.model.Employee;
 public class DepartmentController {
 	
 	private static Logger logger = LogManager.getLogger(DepartmentController.class);
-    DepartmentService departmentService = new DepartmentServiceImpl(); 
-    EmployeeController employeeController = new EmployeeController();
+    DepartmentService departmentService = new DepartmentServiceImpl();
     Scanner scanner = new Scanner(System.in);
     
     /**
@@ -95,8 +89,9 @@ public class DepartmentController {
         try {
             System.out.print("Enter Department Name : ");
             String name = scanner.next();
-            departmentService.addDepartment(name);
+            int id = departmentService.addDepartment(name);
             System.out.println("=============Department Added=============");
+            System.out.println("id = " + id);
         } catch (DatabaseException e) {
             logger.error("Failed to add department");
         } catch (InputMismatchException e) {
@@ -106,7 +101,7 @@ public class DepartmentController {
 
     /**
 	 *<p>
-     *All departments which are extraced from the database are displayed
+     *All departments which are extracted from the database are displayed
 	 *</p>
      */
 

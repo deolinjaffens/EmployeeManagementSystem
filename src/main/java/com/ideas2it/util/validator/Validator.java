@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 /**
  *<p>
- *Used to check wheather the details initialised are in
+ *Used to check whether the details initialised are in
  *the expected form
  *</p>
  *@author Deolin Jaffens
@@ -15,7 +15,7 @@ public class Validator {
 
     /**
 	 *<p>
-     *Checks wheater the number is a true phone number
+     *Checks whether the number is a true phone number
      *</p>
      *@param number - gets the number initialised
      */
@@ -29,7 +29,7 @@ public class Validator {
 
     /**
      *<p>
-     *Checks wheather the given name is true
+     *Checks whether the given name is true
      *</p>
      *@param name - gets the name that is initialised
      */
@@ -42,7 +42,7 @@ public class Validator {
 
     /**
 	 *<p>
-     *Checks wheather the given gender is true
+     *Checks whether the given gender is true
      *</p>
      *@param gender - get the gender that is initialized
      */

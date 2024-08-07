@@ -4,24 +4,22 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
-import com.ideas2it.util.exception.DatabaseException;
-
 /**
  *<p>
- *Provies configuration to session factory which manages database session and 
+ *Provides configuration to session factory which manages database session and
  *transaction
  *</p>
  *@author Deolin Jaffens
  */
  
 public class HibernateConfig {
-    private static SessionFactory factory = null;
+    private static SessionFactory factory;
 
     static {
 		try {
 			factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-		} catch (Throwable e) {
-			throw new ExceptionInInitializerError(e);
+		} catch (HibernateException e) {
+			throw new HibernateException(e);
 		}
 	}
 	

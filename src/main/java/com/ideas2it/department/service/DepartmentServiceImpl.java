@@ -1,24 +1,18 @@
 package com.ideas2it.department.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.ideas2it.department.dao.DepartmentDao;
 import com.ideas2it.department.dao.DepartmentDaoImpl;
-import com.ideas2it.employee.service.EmployeeService;
-import com.ideas2it.employee.service.EmployeeServiceImpl;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.model.Department;
-import com.ideas2it.model.Employee;
 
 public class DepartmentServiceImpl implements DepartmentService {
     DepartmentDao departmentDao = new DepartmentDaoImpl();
 
-    public void addDepartment(String name) throws DatabaseException {
+    public int addDepartment(String name) throws DatabaseException {
         Department department = new Department(name);
-        departmentDao.addDepartment(department);
+        return departmentDao.addDepartment(department);
     }
 
     public List<Department> getAllDepartments() throws DatabaseException {
@@ -38,7 +32,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     public boolean isEmpty() throws DatabaseException {
-        return departmentDao.checkForDepartment();
+        return departmentDao.getAllDepartments().isEmpty();
     }
 
     public Department getDepartment(int id) throws DatabaseException {

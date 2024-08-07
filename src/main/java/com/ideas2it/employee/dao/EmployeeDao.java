@@ -1,27 +1,13 @@
 package com.ideas2it.employee.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
 
-import com.ideas2it.config.drivermanager.DriverManagerConfig;
 import com.ideas2it.util.exception.DatabaseException;
-import com.ideas2it.model.Department;
 import com.ideas2it.model.Employee;
 
 /**
  *<p>
- *Stores and retrives information related to employee from the database
+ *Stores and retrieves information related to employee from the database
  *</p>
  *@author Deolin Jaffens
  */
@@ -35,16 +21,15 @@ public interface EmployeeDao {
      *</p>
      *@param employee - contains details of employee who is going to 
      *be added
-     *@param department - contains details of department that the 
-     *employee is going get linked
+     *@return int
      *@throws DatabaseException
      */
 
-    public void addEmployee(Employee employee) throws DatabaseException;
+    public int addEmployee(Employee employee) throws DatabaseException;
    
     /**
 	 *<p>
-     *Checks the avalability of specific employee details 
+     *Checks the availability of specific employee details
      *using id number and extracts it
      *</p>
      *@param id - id of employee whose details are to be extracted
@@ -56,11 +41,9 @@ public interface EmployeeDao {
 
     /**
 	 *<p>
-     *Extracts the department details from the database
+     *Updates the details of the employee
      *</p>
-     *@param id - id of the department whose details has to be extracted
-     *@param connection - connects the driver to the function
-     *@return department
+     *@param employee- employee whose details has to updated
      *@throws DatabaseException
      */
 

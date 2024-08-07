@@ -5,17 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.ideas2it.model.Department;
 import com.ideas2it.model.Skill;
@@ -56,11 +46,11 @@ public class Employee
 	@Column(name = "is_deleted")
     private boolean delete;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
     private Department department;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "employee_skill", joinColumns = {@JoinColumn(name = "employee_id")}, inverseJoinColumns = {@JoinColumn(name = "skill_id")})
     private Set<Skill> skills;
 
@@ -106,6 +96,7 @@ public class Employee
     public void setGender(char gender) {
 	this.gender=gender;
     }
+
     public long getPhoneNumber() {
 	return phoneNumber;
     }
@@ -138,7 +129,7 @@ public class Employee
         this.department = department;
     }
 
-    public Employee(String name, LocalDate dob, char gender, long phoneNumber, double salary, Department department) { 
+    public Employee(String name, LocalDate dob, char gender, long phoneNumber, double salary) {
 	    this.name = name;
 	    this.dob = dob;
         age = setAge(dob); // age is calculated 
@@ -158,7 +149,7 @@ public class Employee
 	    this.id = id;
 	    this.phoneNumber = phoneNumber;
 	    this.salary = salary;
-        this.delete = true;
+        this.delete = false;
         this.skills = new HashSet<>();
     }
 	

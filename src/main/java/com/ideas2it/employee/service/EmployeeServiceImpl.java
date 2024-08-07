@@ -1,9 +1,7 @@
 package com.ideas2it.employee.service;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import com.ideas2it.model.Department;
 import com.ideas2it.department.service.DepartmentService;
@@ -26,13 +24,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     EmployeeDao employeeDao = new EmployeeDaoImpl();
 	DepartmentService departmentService = new DepartmentServiceImpl();
 
-    public void addEmployee(String name, LocalDate dob, Department department, char gender, long phNum, double salary) throws DatabaseException{
-        Employee employee = new Employee(name, dob, gender, phNum, salary, department);
-        employeeDao.addEmployee(employee);
+    public int addEmployee(String name, LocalDate dob, char gender, long phNum, double salary) throws DatabaseException{
+        Employee employee = new Employee(name, dob, gender, phNum, salary);
+        return employeeDao.addEmployee(employee);
     }
 
     public Employee getEmployee(int id) throws DatabaseException {
-        if(employeeDao.getEmployee(id).getDelete() == true) {
+        if(!employeeDao.getEmployee(id).getDelete()) {
             return employeeDao.getEmployee(id);
         }
         return null;
@@ -54,13 +52,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	    return departmentService.isEmpty();
 	}
 	  
-    public Department getDepartment(int id) throws DatabaseException {
-	    for(Department department : departmentService.getAllDepartments()) {
-		    if(department.getId() == id){
-		  	    return department;
+    public void addDepartmentToEmployee(int id,int departmentId) throws DatabaseException {
+	    for(Department department : getAllDepartments()) {
+		    if(department.getId() == departmentId){
+		  	    getEmployee(id).setDepartment(department);
 			}
 		}
-		return null;
 	}
 	
 	public List<Department> getAllDepartments() throws DatabaseException {

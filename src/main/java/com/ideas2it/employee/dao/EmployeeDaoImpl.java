@@ -1,38 +1,25 @@
 package com.ideas2it.employee.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
+import com.ideas2it.model.Department;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.config.hibernate.HibernateConfig;
-import com.ideas2it.config.drivermanager.DriverManagerConfig;
-import com.ideas2it.model.Department;
 import com.ideas2it.model.Employee;
 
 /**
- *Stores and retrives information related to employee from the
+ * <p>
+ *Stores and retrieves information related to employee from the
  *database
  *Implements the EmployeeDao interface
- *
+ *</p>
  *@author Deolin Jaffens
  */
 
@@ -40,40 +27,24 @@ public class EmployeeDaoImpl implements EmployeeDao  {
 	
 	private static Logger logger = LogManager.getLogger(EmployeeDaoImpl.class);
 
-    /**
-     *Adds new employee details to the database
-     *Links employee with department in the database
-     *
-     *@param employee - contains details of employee who is going to 
-     *be added
-     *@param department - contains details of department that the 
-     *employee is going get linked
-     *@throws DatabaseException
-     */
-
-    public void addEmployee(Employee employee) throws DatabaseException {
+    public int addEmployee(Employee employee) throws DatabaseException {
         Session session = HibernateConfig.getFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Integer id = (Integer) session.save(employee);
+            int id = (Integer) session.save(employee);
             transaction.commit();
+            return id;
         } catch (HibernateException e) {
-			logger.error(e.getMessage());
-           throw new DatabaseException("Error with database" + e);
+            if(transaction != null) {
+                transaction.rollback();
+            }
+            logger.error(e.getMessage());
+            throw new DatabaseException("Error with database" + e);
         } finally {
             session.close();
         }
     }
-
-    /**
-     *Checks the avalability of specific employee details 
-     *using id number and extracts it
-     *
-     *@param id - id of employee whose details are to be extracted
-     *@return Employee
-     *@throws DatabaseException
-     */
 
     public Employee getEmployee(int id) throws DatabaseException {
 		Session session = HibernateConfig.getFactory().openSession();
@@ -86,13 +57,6 @@ public class EmployeeDaoImpl implements EmployeeDao  {
             session.close();
         }
     }   
-
-    /**
-     *updates any Specific details of any employee
-     *
-     *@param employee - contains employee whose details has to be deleted
-     *@throws DatabaseException
-     */
 
     public void updateEmployee(Employee employee) throws DatabaseException {
         Session session = HibernateConfig.getFactory().openSession();
@@ -115,15 +79,8 @@ public class EmployeeDaoImpl implements EmployeeDao  {
             session.close();
         }
     }
-   
-   /**
-    *Restricts anyone from viewing details of a specific employee
-    *
-    *@param id - id of employee 
-    *@throws DatabaseException
-    */
 
-   public void removeEmployee(int id) throws DatabaseException {
+    public void removeEmployee(int id) throws DatabaseException {
        Session session = HibernateConfig.getFactory().openSession();
          Transaction transaction = null;
          try {
@@ -149,21 +106,14 @@ public class EmployeeDaoImpl implements EmployeeDao  {
         }
     }
 
-    /**
-     *Extracts all the employees from the database
-     *
-     *@return Set<Employee>
-     *@throws DatabaseException
-     */
-        
     public List<Employee> getEmployees() throws DatabaseException {
         Session session = HibernateConfig.getFactory().openSession();
         Transaction transaction = null;
-        List<Employee> employees = new ArrayList<>();
         try {
             transaction = session.beginTransaction();
-            employees = session.createQuery("from Employee where is_deleted = true", Employee.class).list();
+            List<Employee> employees = session.createQuery("from Employee where is_deleted = false", Employee.class).list();
             transaction.commit();
+            return employees;
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -173,6 +123,5 @@ public class EmployeeDaoImpl implements EmployeeDao  {
         } finally {
             session.close();
         }
-        return employees;
     }   
 }

@@ -1,21 +1,10 @@
 package com.ideas2it.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 import com.ideas2it.model.Employee;
-
 /**
  *<p>
  *All the details which could relate to a particular department is initialised
@@ -34,7 +23,7 @@ public class Department implements Serializable {
 	@Column(name = "name")
     private String name;
 	
-	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Employee> employees;
 
     public int getId() {
@@ -59,10 +48,6 @@ public class Department implements Serializable {
 
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
-    }
-
-    public void addEmployees(Employee employee) {
-        employees.add(employee);
     }
 
     public Department(String name) {

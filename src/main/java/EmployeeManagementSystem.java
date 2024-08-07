@@ -9,24 +9,25 @@ import com.ideas2it.skill.controller.SkillController;
  *<p>
  *Acts as a navigation to all the controllers
  *</p>
- *@Deolin Jaffens
+ *@author Deolin Jaffens
  */
 
 public class EmployeeManagementSystem {
 	
 	/**
 	 *<p>
-	 *Navigate to various Controllers and provies access to them
+	 *Navigate to various Controllers and provides access to them
 	 *</p>
 	 */
+
     public static void main(String[]args){
 		Scanner scanner = new Scanner(System.in);
 		boolean exit = false;
+		DepartmentController departmentController = new DepartmentController();
+		EmployeeController employeeController = new EmployeeController();
+		SkillController skillController = new SkillController();
 		try {
 		    while(!exit) {
-	            DepartmentController departmentController = new DepartmentController();
-	            EmployeeController employeeController = new EmployeeController();
-	            SkillController skillController = new SkillController();
 	            System.out.println("(1) Department menu");
                 System.out.println("(2) Employee menu");
                 System.out.println("(3) Skill menu");

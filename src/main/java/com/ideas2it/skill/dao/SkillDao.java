@@ -1,33 +1,19 @@
 package com.ideas2it.skill.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException; 
 import org.hibernate.Session; 
-import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-
-import com.ideas2it.config.drivermanager.DriverManagerConfig;
 import com.ideas2it.util.exception.DatabaseException;
 import com.ideas2it.model.Skill;
 import com.ideas2it.model.Employee;
 
 /**
- *Stores and retrives details related to skills from the database
+ *Stores and retrieves details related to skills from the database
  *Implements the SkillDao interface
  *
- *@Deolin Jaffens
+ *@author Deolin Jaffens
  */
 
 public interface SkillDao {
@@ -41,27 +27,25 @@ public interface SkillDao {
      *@return int
      */
 
-    public int addSkill(Skill skill, Employee employee) throws DatabaseException;
-	
-	/**
-	 *<p>
-	 *Checks wheather the skill to be added already exists
-     *</p>
-     *@param skill - skill that has to be checked
-     *@param session - connects dao to the database
-     *@return Skill - skill that already exists in the database
-     *@throws HibernateException
-     */
-    public Skill isPresent(Skill skill,Session session) throws DatabaseException;
+    public int insertSkill(Skill skill) throws DatabaseException;
+
     /**
 	 *<p>
      *Extracts all the skills related to the employee
      *</p>
-     *@param id - id of the employee whose skills has to be extracted
-     *@return Set<Skill>
+     *@return List<Skill>
      */
 
-    public Set<Skill> getAllSkills(Employee employee) throws DatabaseException;
+    public List<Skill> getAllSkills() throws DatabaseException;
+
+    /**
+     * <p>
+     * Extracts the details of a specific skill from the database
+     * </p>
+     * @param id - id of the skill to be extracted
+     */
+
+    public Skill getSkill(int id);
 
     /**
 	 *<p>
@@ -73,7 +57,7 @@ public interface SkillDao {
      *@throws DatabaseException
      */
 
-    public void updateSkill(Employee employee, int id, String name) throws DatabaseException;
+    public void updateSkill(int id, String name) throws DatabaseException;
 
     /**
 	 *<p>
@@ -84,16 +68,5 @@ public interface SkillDao {
      *@throws DatabaseException
      */
 
-    public void removeSkill(int id, Employee employee) throws DatabaseException;
-
-    /**
-	 *<p>
-     *Extract the employees who has a specific skill
-     *</p>
-     *@param id - id of the skill whose employees has to be extracted
-     *@return Set<Employee>
-     */
-
-    public Set<Employee> getEmployees (int id) throws DatabaseException;
-
+    public void removeSkillFromEmployee(int id, int employeeId) throws DatabaseException;
 }
