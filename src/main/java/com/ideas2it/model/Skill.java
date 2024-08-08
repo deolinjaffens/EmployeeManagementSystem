@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 
-import com.ideas2it.model.Employee;
-
 /**
  *<p>
  *All the details of a particular skill is initialised

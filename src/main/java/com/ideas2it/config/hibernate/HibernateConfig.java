@@ -13,11 +13,13 @@ import org.hibernate.SessionFactory;
  */
  
 public class HibernateConfig {
-    private static SessionFactory factory;
+    private static SessionFactory factory = null;
 
     static {
 		try {
-			factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+			if(factory == null) {
+				factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+			}
 		} catch (HibernateException e) {
 			throw new HibernateException(e);
 		}

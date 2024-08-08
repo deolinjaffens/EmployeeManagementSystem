@@ -4,30 +4,30 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.hibernate.HibernateException; 
-import org.hibernate.Session; 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.ideas2it.model.Department;
-import com.ideas2it.util.exception.DatabaseException;
+import com.ideas2it.util.exception.EmployeeException;
 import com.ideas2it.config.hibernate.HibernateConfig;
 
 /**
- *<p>
- *Stores and retrieves required details from the database
- *Implements the DepartmentDao interface 
- *</p>
- *@author Deolin Jaffens
+ * <p>
+ * Stores and retrieves required details from the database
+ * Implements the DepartmentDao interface
+ * </p>
+ *
+ * @author Deolin Jaffens
  */
 
 public class DepartmentDaoImpl implements DepartmentDao {
 
-	private static Logger logger = LogManager.getLogger(DepartmentDaoImpl.class);
+    private static Logger logger = LogManager.getLogger(DepartmentDaoImpl.class);
 
-    public int addDepartment(Department department) throws DatabaseException {
-        Session session = HibernateConfig.getFactory().openSession();
+    public int addDepartment(Department department) throws EmployeeException {
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateConfig.getFactory().openSession()) {
             transaction = session.beginTransaction();
             int id = (Integer) session.save(department);
             transaction.commit();
@@ -36,81 +36,60 @@ public class DepartmentDaoImpl implements DepartmentDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-			logger.error(e.getMessage());
-            throw new DatabaseException("Error with database" + e);
-        } finally {
-            session.close();
+            logger.error("Error while adding department of name {}", department.getName());
+            throw new EmployeeException("Unable to add department", e);
         }
-     }
+    }
 
-    public List<Department> getAllDepartments() throws DatabaseException {
-		Session session = HibernateConfig.getFactory().openSession();
+    public List<Department> getAllDepartments() throws EmployeeException {
+        try (Session session = HibernateConfig.getFactory().openSession()) {
+            return session.createQuery("from Department", Department.class).list();
+        } catch (HibernateException e) {
+            logger.error("Error while extracting all the departments");
+            throw new EmployeeException("Unable to extract departments", e);
+        }
+    }
+
+    public Department getDepartment(int id) throws EmployeeException {
+        try (Session session = HibernateConfig.getFactory().openSession()) {
+            return session.get(Department.class, id);
+        } catch (HibernateException e) {
+            logger.error("Error while extracting department of id {}", id);
+            throw new EmployeeException("Unable to Extract Department", e);
+        }
+    }
+
+    public void updateDepartment(int id, String name) throws EmployeeException {
         Transaction transaction = null;
-        try {
+        try (Session session = HibernateConfig.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            List<Department> departments = session.createQuery("from Department",Department.class).list();
+            Department department = session.get(Department.class, id);
+            department.setName(name);
+            session.update(department);
             transaction.commit();
-            return departments;
         } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-			logger.error(e.getMessage());
-            throw new DatabaseException("Department Error" + e);
-        } finally {
-            session.close();
-        }
-    }
-	 
-	public Department getDepartment(int id) throws DatabaseException{
-        Session session = HibernateConfig.getFactory().openSession();
-        try { 
-            return session.get(Department.class, id);
-        }catch (HibernateException e) {
-		    logger.error(e.getMessage());
-            throw new DatabaseException("Error with database");
-        } finally {
-            session.close();
-        } 
-    }		
-	 
-    public void updateDepartment(int id, String name) throws DatabaseException {
-        Session session = HibernateConfig.getFactory().openSession();
-		Transaction transaction = null;
-        try { 
-		    transaction = session.beginTransaction();
-            Department department = session.get(Department.class, id);
-			department.setName(name);
-			session.update(department);
-			transaction.commit();
-        }catch (HibernateException e) {
-            if(transaction != null) {
-                transaction.rollback();
-            }
-			logger.error(e.getMessage());
-            throw new DatabaseException("Error with database" + e);
-        } finally {
-            session.close();
+            logger.error("Error while updating department of id {}", id);
+            throw new EmployeeException("Error while updating department", e);
         }
     }
 
-    public void removeDepartment(int id)  throws DatabaseException {
-         Session session = HibernateConfig.getFactory().openSession();
-         Transaction transaction = null;
-         try {
-             transaction = session.beginTransaction();
-             Department department = session.get (Department.class, id);
-             session.delete(department);             
-             transaction.commit();
-         } catch (HibernateException e) {
-             if(transaction != null) {
+    public void removeDepartment(int id) throws EmployeeException {
+        Transaction transaction = null;
+        try (Session session = HibernateConfig.getFactory().openSession()) {
+            transaction = session.beginTransaction();
+            Department department = session.get(Department.class, id);
+            session.delete(department);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
-			logger.error(e.getMessage());
-            throw new DatabaseException("Database Error  " + e);
-             
-         } finally {
-             session.close();
+            logger.error("Error while removing department of id {}", id);
+            throw new EmployeeException("Error while removing department", e);
+
         }
     }
 

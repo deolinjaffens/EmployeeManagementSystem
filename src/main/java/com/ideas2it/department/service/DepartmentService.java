@@ -2,69 +2,92 @@ package com.ideas2it.department.service;
 
 import java.util.List;
 
-import com.ideas2it.util.exception.DatabaseException;
+import com.ideas2it.util.exception.EmployeeException;
 import com.ideas2it.model.Department;
 
 /**
  * <p>
- *Connects Controller to the Dao
- *</p>
- *@author Deolin Jaffens
+ * Connects Controller to the Dao
+ * </p>
+ *
+ * @author Deolin Jaffens
  */
 
 public interface DepartmentService {
 
     /**
-     *Extract details from the controller and stores it in Department
-     *The newly formed department is passed to the Dao
+     * <p>
+     * Extract details from the controller and stores it in Department
+     * The newly formed department is passed to the Dao
+     * </p>
      *
-     *@param name - name of the department
+     * @param name - name of the department
+     * @throws EmployeeException - Exception thrown while there is an issue in
+     *                           adding specific details of a department
      */
 
-    public int addDepartment(String name) throws DatabaseException;
+    int addDepartment(String name) throws EmployeeException;
 
     /**
-     *Extracts all the departments from the Dao
+     * <p>
+     * Extracts all the departments from the Dao
+     * </p>
      *
-     *@return List<Department>
+     * @return List<Department>
+     * @throws EmployeeException - Exception thrown while there is an issue in
+     *                           extracting the department
      */
 
-    public List<Department> getAllDepartments() throws DatabaseException;
+    List<Department> getAllDepartments() throws EmployeeException;
 
     /**
-     *Extract details of a specific department and updates it after passing it 
-     *to the dao
+     * <p>
+     * Extract details of a specific department and updates it after passing it
+     * to the dao
+     * </p>
      *
-     *@param id - id of the department
-     *@param name - name to be updated for the department
+     * @param id   - id of the department
+     * @param name - name to be updated for the department
+     * @throws EmployeeException - Exception thrown while there is an issue while
+     *                           updating the specific department
      */
-  
-    public void updateDepartment(int id, String name) throws DatabaseException;
 
-   /**
-    *Department id is extracted from the controller and passed to
-    *the dao
-    *
-    *@param id - id of department to be removed
-    */
-  
-    public void removeDepartment(int id) throws DatabaseException;
+    void updateDepartment(int id, String name) throws EmployeeException;
 
     /**
-     *Check for the availability of any department in the database
+     * <p>
+     * Department id is extracted from the controller and passed to the dao
+     * </p>
      *
-     *@return boolean
+     * @param id - id of department to be removed
+     * @throws EmployeeException - Exception thrown while there is a failure
+     *                           in removing a specific department
      */
 
-    public boolean isEmpty() throws DatabaseException;
+    void removeDepartment(int id) throws EmployeeException;
 
     /**
-     *Extracts all the employees from the employee service 
+     * <p>
+     * Check for the availability of any department in the database
+     * </p>
      *
-     *@param id - id of the department to be extracted
-     *@return Department
+     * @return whether the database contains any departments
+     * @throws EmployeeException - Exception thrown while checking for the presence
+     *                           of any departments
      */
 
-     public Department getDepartment(int id) throws DatabaseException;    
+    boolean isDepartmentPresent() throws EmployeeException;
+
+    /**
+     * <p>
+     * Extracts all the employees from the employee service
+     * </p>
+     *
+     * @param id - id of the department to be extracted
+     * @return department which has to be extracted
+     * @throws EmployeeException - exception thrown while extracting department
+     */
+
+    Department getDepartment(int id) throws EmployeeException;
 
 }

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import com.ideas2it.model.Department;
 import com.ideas2it.department.service.DepartmentService;
 import com.ideas2it.department.service.DepartmentServiceImpl;
-import com.ideas2it.util.exception.DatabaseException;
+import com.ideas2it.util.exception.EmployeeException;
 import com.ideas2it.model.Employee;
 
 /**
@@ -92,7 +92,7 @@ public class DepartmentController {
             int id = departmentService.addDepartment(name);
             System.out.println("=============Department Added=============");
             System.out.println("id = " + id);
-        } catch (DatabaseException e) {
+        } catch (EmployeeException e) {
             logger.error("Failed to add department");
         } catch (InputMismatchException e) {
             logger.warn(e.getMessage());
@@ -111,7 +111,7 @@ public class DepartmentController {
             for (Department department : departmentService.getAllDepartments()) {
                 System.out.printf("|%-13s|%-15s|\n",department.getId(),department.getName());
             }
-        } catch (DatabaseException e) {
+        } catch (EmployeeException e) {
             logger.error("Failed to fetch all departments");
         }
     }
@@ -130,7 +130,7 @@ public class DepartmentController {
             String name = scanner.next();    
             departmentService.updateDepartment(id, name); 
             System.out.println("=============Department Updated=============");
-        } catch (DatabaseException e) {
+        } catch (EmployeeException e) {
             logger.error("Failed to update department details");
         } catch (InputMismatchException e) {
             logger.warn(e.getMessage());
@@ -149,7 +149,7 @@ public class DepartmentController {
             int id = scanner.nextInt();
             departmentService.removeDepartment(id);
       	    System.out.println("=============Department Deleted=============");
-        } catch (DatabaseException e) {
+        } catch (EmployeeException e) {
             logger.error("Failed to add Department");
         } catch (InputMismatchException e) {
             logger.warn(e.getMessage());
@@ -169,7 +169,7 @@ public class DepartmentController {
             for(Employee employee : departmentService.getDepartment(id).getEmployees()) {
                     System.out.println(employee.getId() + " - " + employee.getName());
             }
-        } catch(DatabaseException e) {
+        } catch(EmployeeException e) {
             logger.error("Failed to fetch all employees");
         }
     }

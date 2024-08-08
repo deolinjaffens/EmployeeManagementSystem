@@ -1,14 +1,10 @@
 package com.ideas2it.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
-
-import com.ideas2it.model.Department;
-import com.ideas2it.model.Skill;
 
 /**
  *<p>
@@ -19,8 +15,7 @@ import com.ideas2it.model.Skill;
 
 @Entity
 @Table(name = "employee")
-public class Employee 
-{
+public class Employee implements Serializable {
     @Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +27,6 @@ public class Employee
 	@Column(name = "dob")
     private LocalDate dob;
 	
-    private static String age;
-	
 	@Column(name = "gender")
     private char gender;
 	
@@ -44,7 +37,7 @@ public class Employee
     private double salary;
 	
 	@Column(name = "is_deleted")
-    private boolean delete;
+    private boolean isDeleted;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "department_id")
@@ -55,32 +48,21 @@ public class Employee
     private Set<Skill> skills;
 
     public String getName() {
-	return name;
+	    return name;
     }
 
     public void setName(String name) {
-	this.name = name;
+	    this.name = name;
     }
 	
     public LocalDate getDob() {
-	return dob;
+	    return dob;
     }
 
     public void setDob(LocalDate dob) {
-	this.dob=dob;
+	    this.dob=dob;
     }
 
-    public String getAge() {
-        return age;
-    }
-
-    private static String setAge(LocalDate dob) {
-        int ageInYears = Period.between(dob,LocalDate.now()).getYears();
-        int differenceInMonths = Period.between(dob,LocalDate.now()).getMonths();
-        age = ageInYears + " Years " + differenceInMonths + " Months ";
-        return age; 
-    }
-   
     public int getId() {
 	return id;
     }
@@ -113,12 +95,12 @@ public class Employee
 	this.salary=salary;
     }
     
-    public boolean getDelete() {
-        return delete;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Department getDepartment() {
@@ -129,14 +111,13 @@ public class Employee
         this.department = department;
     }
 
-    public Employee(String name, LocalDate dob, char gender, long phoneNumber, double salary) {
+    public Employee(String name, LocalDate dob, char gender, long phoneNumber, double salary,Department department) {
 	    this.name = name;
 	    this.dob = dob;
-        age = setAge(dob); // age is calculated 
 	    this.gender = gender;
 	    this.phoneNumber = phoneNumber;
 	    this.salary = salary;
-        this.delete = true;
+        this.isDeleted = false;
         this.skills = new HashSet<>();
 		this.department = department;
     }
@@ -144,12 +125,11 @@ public class Employee
 	public Employee(String name, LocalDate dob, int id, char gender, long phoneNumber, double salary) { 
 	    this.name = name;
 	    this.dob = dob;
-        age = setAge(dob); // age is calculated 
 	    this.gender = gender;
 	    this.id = id;
 	    this.phoneNumber = phoneNumber;
 	    this.salary = salary;
-        this.delete = false;
+        this.isDeleted = false;
         this.skills = new HashSet<>();
     }
 	

@@ -10,7 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
 
-import com.ideas2it.util.exception.DatabaseException;
+import com.ideas2it.util.exception.EmployeeException;
 import com.ideas2it.config.hibernate.HibernateConfig;
 import com.ideas2it.model.Skill;
 import com.ideas2it.model.Employee;
@@ -27,7 +27,7 @@ public class SkillDaoImpl implements SkillDao {
 	
 	private static Logger logger = LogManager.getLogger(SkillDaoImpl.class);
 
-    public int insertSkill(Skill skill) throws DatabaseException {
+    public int insertSkill(Skill skill) throws EmployeeException {
         Session session = HibernateConfig.getFactory().openSession();
         Transaction transaction = null;
         try {
@@ -40,13 +40,13 @@ public class SkillDaoImpl implements SkillDao {
                 transaction.rollback();
             }
             logger.error(e.getMessage());
-            throw new DatabaseException("Error with database" + e);
+            throw new EmployeeException("Error with database" + e);
         } finally {
             session.close();
         }
     }
 
-    public List<Skill> getAllSkills() {
+    public List<Skill> getAllSkills() throws EmployeeException {
         Session session = HibernateConfig.getFactory().openSession();
         Transaction transaction = null;
         try {
@@ -59,45 +59,66 @@ public class SkillDaoImpl implements SkillDao {
                 transaction.rollback();
             }
             logger.error(e.getMessage());
-            throw new DatabaseException("Department Error" + e);
+            throw new EmployeeException("Department Error" + e);
         } finally {
             session.close();
         }
     }
 
-    public Skill getSkill(int id) {
+    public Skill getSkill(int id) throws EmployeeException{
         Session session = HibernateConfig.getFactory().openSession();
         try {
             return session.get(Skill.class, id);
         } catch (HibernateException e) {
             logger.error(e.getMessage());
-            throw new DatabaseException("Error with database" + e);
+            throw new EmployeeException("Error with database");
         } finally {
             session.close();
         }
     }
 
-    public void updateSkill(int id, String name) throws DatabaseException {
+    public void updateSkill(int id, String name) throws EmployeeException {
         Session session = HibernateConfig.getFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Department department = session.get(Skill.class, id);
-            department.setName(name);
-            session.update(department);
+            Skill skill = session.get(Skill.class, id);
+            skill.setName(name);
+            session.update(skill);
             transaction.commit();
         }catch (HibernateException e) {
             if(transaction != null) {
                 transaction.rollback();
             }
             logger.error(e.getMessage());
-            throw new DatabaseException("Error with database" + e);
+            throw new EmployeeException("Error with database" + e);
         } finally {
             session.close();
         }
     }
 
-    public void removeSkillFromEmployee(int id, int employeeId) throws DatabaseException {
+    public void insertSkillToEmployee(int id,int employeeId) throws EmployeeException {
+        Session session = HibernateConfig.getFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Employee employee = session.get(Employee.class, employeeId);
+            Skill skill = session.get(Skill.class, id);
+            employee.getSkills().add(skill);
+            skill.getEmployees().add(employee);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
+            logger.error(e.getMessage());
+            throw new EmployeeException("Database Error  " + e);
+
+        } finally {
+            session.close();
+        }
+    }
+    public void removeSkillFromEmployee(int id, int employeeId) throws EmployeeException {
          Session session = HibernateConfig.getFactory().openSession();
          Transaction transaction = null;
          try {
@@ -112,7 +133,7 @@ public class SkillDaoImpl implements SkillDao {
                 transaction.rollback();
             }
 			logger.error(e.getMessage());
-            throw new DatabaseException("Database Error  " + e);
+            throw new EmployeeException("Database Error  " + e);
              
          } finally {
              session.close();

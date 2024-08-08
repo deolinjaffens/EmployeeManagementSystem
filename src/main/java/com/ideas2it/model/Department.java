@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.*;
 
-import com.ideas2it.model.Employee;
 /**
  *<p>
  *All the details which could relate to a particular department is initialised
