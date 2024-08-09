@@ -17,13 +17,13 @@ public interface EmployeeDao {
 
     /**
      * <p>
-     * Adds new employee details to the database
-     * Links employee with department in the database
+     * Adds new employee to the database
+     * Links employee with department
      * </p>
      *
      * @param employee - contains details of employee who is going to
      *                 be added
-     * @return int
+     * @return id of the employee that is generated
      * @throws EmployeeException - Exception thrown when there is an issue in
      *                           connecting with the database
      */
@@ -36,12 +36,13 @@ public interface EmployeeDao {
      * </p>
      *
      * @param id - id of employee whose details has to be extracted
-     * @return Employee
+     * @return employee whose id matches with the given id
      * @throws EmployeeException - Error thrown while connecting with the database
-     *                           and when the initialised doesn't match an employee in the database
+     *                           and when the initialised doesn't match an employee
+     *                           in the database
      */
 
-    Employee getEmployee(int id) throws EmployeeException;
+    Employee getEmployeeById(int id) throws EmployeeException;
 
     /**
      * <p>
@@ -50,34 +51,23 @@ public interface EmployeeDao {
      *
      * @param employee- employee whose details has to updated
      * @throws EmployeeException - Error thrown when there is an issue in connecting
-     *                           with the database
+     *                           with the database and the details given doesn't match
+     *                           with the type in the database
      */
 
     void updateEmployee(Employee employee) throws EmployeeException;
 
     /**
      * <p>
-     * Restricts anyone from viewing details of a specific employee
+     * Removes a specific employee from the database
      * </p>
      *
      * @param id - id of employee
      * @throws EmployeeException - Exception thrown while there is an issue in
-     *                           connecting with database and when the given id doesn't match any department
-     *                           in the database
+     *                           connecting with database and when the given id
+     *                           doesn't match any department in the database
      */
 
     void removeEmployee(int id) throws EmployeeException;
-
-    /**
-     * <p>
-     * Extracts all the employees from the database
-     * </p>
-     *
-     * @return Set<Employee>
-     * @throws EmployeeException - Exception thrown while there is a trouble in
-     *                           connecting with the database
-     */
-
-    List<Employee> getEmployees() throws EmployeeException;
 
 }

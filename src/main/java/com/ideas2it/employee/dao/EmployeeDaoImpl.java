@@ -1,7 +1,5 @@
 package com.ideas2it.employee.dao;
 
-import java.util.List;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.hibernate.HibernateException;
@@ -42,7 +40,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         }
     }
 
-    public Employee getEmployee(int id) throws EmployeeException {
+    public Employee getEmployeeById(int id) throws EmployeeException {
         try (Session session = HibernateConfig.getFactory().openSession()) {
             return session.createQuery("FROM Employee e where e.id = :id and e.isDeleted = false", Employee.class).setParameter("id", id).uniqueResult();
         } catch (HibernateException e) {
@@ -87,15 +85,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
             logger.error("Error while removing employee of id {}", id);
             throw new EmployeeException("Unable to remove employee", e);
 
-        }
-    }
-
-    public List<Employee> getEmployees() throws EmployeeException {
-        try (Session session = HibernateConfig.getFactory().openSession()) {
-            return session.createQuery("from Employee where is_deleted = false", Employee.class).list();
-        } catch (HibernateException e) {
-            logger.error("Error while extracting employees from database");
-            throw new EmployeeException("Error while extracting all the employees", e);
         }
     }
 }

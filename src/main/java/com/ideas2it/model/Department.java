@@ -22,7 +22,7 @@ public class Department implements Serializable {
 	@Column(name = "name")
     private String name;
 	
-	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Employee> employees;
 
     public int getId() {

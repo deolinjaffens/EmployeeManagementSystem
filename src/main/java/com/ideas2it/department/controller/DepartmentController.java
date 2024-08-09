@@ -13,30 +13,31 @@ import com.ideas2it.util.exception.EmployeeException;
 import com.ideas2it.model.Employee;
 
 /**
- *<p>
- *Creation,Edition,removal and viewing of  department is done.
- *Initialisation and extraction of details related to department are given and 
- *obtained
- *</p>
- *@author Deolin Jaffens
- */  
+ * <p>
+ * Creation,Edition,removal and viewing of  department is done.
+ * Initialisation and extraction of details related to department are given and
+ * obtained
+ * </p>
+ *
+ * @author Deolin Jaffens
+ */
 
 public class DepartmentController {
-	
-	private static Logger logger = LogManager.getLogger(DepartmentController.class);
+
+    private static Logger logger = LogManager.getLogger(DepartmentController.class);
     DepartmentService departmentService = new DepartmentServiceImpl();
     Scanner scanner = new Scanner(System.in);
-    
+
     /**
-	 *<p>
-     *Initialises and extracts department details for adding, viewing, 
-     *editing and removal of the department
-     *</p>
+     * <p>
+     * Initialises and extracts department details for adding, viewing,
+     * editing and removal of the department
+     * </p>
      */
 
     public void menu() {
         boolean exit = false;
-        while(!exit) {
+        while (!exit) {
             System.out.println("(1) Add Department");
             System.out.println("(2) View AllDepartment");
             System.out.println("(3) Update Department");
@@ -46,7 +47,7 @@ public class DepartmentController {
             System.out.println(" ");
             System.out.print("Enter an option : ");
             int option = scanner.nextInt();
-            switch(option) {
+            switch (option) {
                 case 1:
                     addDepartment();
                     break;
@@ -59,9 +60,9 @@ public class DepartmentController {
                     updateDepartment();
                     break;
 
-  		        case 4: 
+                case 4:
                     removeDepartment();
-		            break;
+                    break;
 
                 case 5:
                     viewAllEmployees();
@@ -73,16 +74,16 @@ public class DepartmentController {
 
                 default:
                     System.out.println("Invalid Option!!");
-            } 
+            }
         }
         System.out.println("=================Back to Main Menu======================");
     }
 
     /**
-	 *<p>
-     *Gets all the required details of the department that has to be added to the 
-	 *database
-	 *</p>
+     * <p>
+     * Gets all the required details of the department that has to be added to the
+     * database
+     * </p>
      */
 
     public void addDepartment() {
@@ -100,35 +101,35 @@ public class DepartmentController {
     }
 
     /**
-	 *<p>
-     *All departments which are extracted from the database are displayed
-	 *</p>
+     * <p>
+     * All departments which are extracted from the database are displayed
+     * </p>
      */
 
     public void viewAllDepartments() {
         try {
-            System.out.printf("|%-5s|%-10s|\n","Department Id","Department Name");
+            System.out.printf("|%-5s|%-10s|\n", "Department Id", "Department Name");
             for (Department department : departmentService.getAllDepartments()) {
-                System.out.printf("|%-13s|%-15s|\n",department.getId(),department.getName());
+                System.out.printf("|%-13s|%-15s|\n", department.getId(), department.getName());
             }
         } catch (EmployeeException e) {
             logger.error("Failed to fetch all departments");
         }
     }
-    
+
     /**
-	 *<p>
-     *Gets all the details that has to be updated for a specific department
-	 *</p>
+     * <p>
+     * Gets all the details that has to be updated for a specific department
+     * </p>
      */
 
     public void updateDepartment() {
         try {
-			System.out.println("Enter the id of department that has to be updated");
+            System.out.println("Enter the id of department that has to be updated");
             int id = scanner.nextInt();
             System.out.print("Enter the name to be updated");
-            String name = scanner.next();    
-            departmentService.updateDepartment(id, name); 
+            String name = scanner.next();
+            departmentService.updateDepartment(id, name);
             System.out.println("=============Department Updated=============");
         } catch (EmployeeException e) {
             logger.error("Failed to update department details");
@@ -138,9 +139,9 @@ public class DepartmentController {
     }
 
     /**
-     *<p>
-	 *Gets the id of a specific department which has to be removed from the database
-	 *</p>
+     * <p>
+     * Gets the id of a specific department which has to be removed from the database
+     * </p>
      */
 
     public void removeDepartment() {
@@ -148,7 +149,7 @@ public class DepartmentController {
             System.out.print("Enter Department Id : ");
             int id = scanner.nextInt();
             departmentService.removeDepartment(id);
-      	    System.out.println("=============Department Deleted=============");
+            System.out.println("=============Department Deleted=============");
         } catch (EmployeeException e) {
             logger.error("Failed to add Department");
         } catch (InputMismatchException e) {
@@ -157,19 +158,19 @@ public class DepartmentController {
     }
 
     /**
-	 *<p>
-     *All employees who belongs to a specific department is displayed
-	 *</p>
+     * <p>
+     * All employees who belongs to a specific department is displayed
+     * </p>
      */
-     
+
     public void viewAllEmployees() {
         try {
             System.out.print("Enter Department Id : ");
             int id = scanner.nextInt();
-            for(Employee employee : departmentService.getDepartment(id).getEmployees()) {
-                    System.out.println(employee.getId() + " - " + employee.getName());
+            for (Employee employee : departmentService.getDepartmentById(id).getEmployees()) {
+                System.out.println(employee.getId() + " - " + employee.getName());
             }
-        } catch(EmployeeException e) {
+        } catch (EmployeeException e) {
             logger.error("Failed to fetch all employees");
         }
     }

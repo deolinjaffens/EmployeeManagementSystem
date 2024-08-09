@@ -27,6 +27,7 @@ public interface EmployeeService {
      * @param phoneNumber  - phone number of the employee
      * @param salary       - salary of the employee
      * @param departmentId - id of the department where employee has to be assigned
+     * @return id of department that is generated
      * @throws EmployeeException - Exception thrown while there is an issue in adding
      *                           specific details of the employee
      */
@@ -39,12 +40,12 @@ public interface EmployeeService {
      * </p>
      *
      * @param id - id of employee to be checked and extracted
-     * @return Employee
+     * @return employee whose id matches with the given id
      * @throws EmployeeException - Exception thrown while there is an issue in
      *                           Extracting a specific employee
      */
 
-    Employee getEmployee(int id) throws EmployeeException;
+    Employee getEmployeeById(int id) throws EmployeeException;
 
     /**
      * <p>

@@ -17,31 +17,30 @@ public interface DepartmentDao {
 
     /**
      * <p>
-     * Stores new department details in the database
+     * Stores a new department
      * </p>
      *
      * @param department - contain the department details to be added
      * @return id of the department that is generated
-     * employee
-     * @throws EmployeeException - Exception thrown while there is error in adding
+     * @throws EmployeeException - Exception thrown while there is error in adding department
      */
 
     int addDepartment(Department department) throws EmployeeException;
 
     /**
      * <p>
-     * Extracts department from the Set departmentData
+     * Gets all the available departments
      * </p>
      *
      * @return list of all departments present in the database
-     * @throws EmployeeException - Exception thrown while extracting department
+     * @throws EmployeeException - Exception thrown while connecting with database
      */
 
-    public List<Department> getAllDepartments() throws EmployeeException;
+    List<Department> getAllDepartments() throws EmployeeException;
 
     /**
      * <p>
-     * Extracts a specific department from the database
+     * gets a specific department from the available departments
      * </p>
      *
      * @param id - id of the department to be extracted
@@ -50,17 +49,17 @@ public interface DepartmentDao {
      *                           extracting department
      */
 
-    public Department getDepartment(int id) throws EmployeeException;
+    public Department getDepartmentById(int id) throws EmployeeException;
 
     /**
      * <p>
-     * Updates specific details of department in the database
+     * Updates specific details of of a specific department
      * </p>
      *
      * @param id   - id of the department
      * @param name - name that has to be updated
      * @throws EmployeeException - Exception thrown while updating specific details
-     *                           in the database
+     *                           or connecting with the database
      */
 
     void updateDepartment(int id, String name) throws EmployeeException;
@@ -70,8 +69,9 @@ public interface DepartmentDao {
      * Removes a specific department from the database
      * </p>
      *
-     * @param id - id of the department which should be hid
-     * @throws EmployeeException - Exception thrown while removing department
+     * @param id - id of the department which should be removed
+     * @throws EmployeeException - Exception thrown while there is an issue in
+     *                           connecting with the database
      */
 
     void removeDepartment(int id) throws EmployeeException;

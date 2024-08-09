@@ -31,7 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDao.getAllDepartments().isEmpty();
     }
 
-    public Department getDepartment(int id) throws EmployeeException {
-        return departmentDao.getDepartment(id);
+    public Department getDepartmentById(int id) throws EmployeeException {
+        return departmentDao.getDepartmentById(id);
     }
 }

@@ -17,8 +17,7 @@ public interface DepartmentService {
 
     /**
      * <p>
-     * Extract details from the controller and stores it in Department
-     * The newly formed department is passed to the Dao
+     * Gets every department details and creates a new Department
      * </p>
      *
      * @param name - name of the department
@@ -30,12 +29,12 @@ public interface DepartmentService {
 
     /**
      * <p>
-     * Extracts all the departments from the Dao
+     * Gets all the available departments
      * </p>
      *
      * @return List<Department>
      * @throws EmployeeException - Exception thrown while there is an issue in
-     *                           extracting the department
+     *                           getting the department
      */
 
     List<Department> getAllDepartments() throws EmployeeException;
@@ -46,7 +45,7 @@ public interface DepartmentService {
      * to the dao
      * </p>
      *
-     * @param id   - id of the department
+     * @param id   - id of the department to be updated
      * @param name - name to be updated for the department
      * @throws EmployeeException - Exception thrown while there is an issue while
      *                           updating the specific department
@@ -71,7 +70,7 @@ public interface DepartmentService {
      * Check for the availability of any department in the database
      * </p>
      *
-     * @return whether the database contains any departments
+     * @return whether there is a presence of any departments
      * @throws EmployeeException - Exception thrown while checking for the presence
      *                           of any departments
      */
@@ -80,14 +79,15 @@ public interface DepartmentService {
 
     /**
      * <p>
-     * Extracts all the employees from the employee service
+     * gets a specific department from the available departments
      * </p>
      *
      * @param id - id of the department to be extracted
      * @return department which has to be extracted
-     * @throws EmployeeException - exception thrown while extracting department
+     * @throws EmployeeException - exception thrown while there is an issue in
+     *                           getting a specific department
      */
 
-    Department getDepartment(int id) throws EmployeeException;
+    Department getDepartmentById(int id) throws EmployeeException;
 
 }

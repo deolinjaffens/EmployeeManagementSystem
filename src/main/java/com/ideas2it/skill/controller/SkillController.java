@@ -193,7 +193,7 @@ public class SkillController {
             System.out.print("Enter the Employee Id : ");
             id = scanner.nextInt();
             System.out.println("=============Skills related to an Employee=============");
-            for (Skill skill : employeeService.getEmployee(id).getSkills()) {
+            for (Skill skill : employeeService.getEmployeeById(id).getSkills()) {
                 System.out.println(skill.getName());
             }
         } catch (EmployeeException e) {

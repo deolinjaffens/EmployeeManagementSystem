@@ -50,7 +50,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
     }
 
-    public Department getDepartment(int id) throws EmployeeException {
+    public Department getDepartmentById(int id) throws EmployeeException {
         try (Session session = HibernateConfig.getFactory().openSession()) {
             return session.get(Department.class, id);
         } catch (HibernateException e) {

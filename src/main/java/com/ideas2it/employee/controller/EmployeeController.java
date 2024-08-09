@@ -44,9 +44,9 @@ public class EmployeeController {
      */
 
     public void menu() {
-        boolean flag = false;
+        boolean exit = false;
         try {
-            while (!flag) {
+            while (!exit) {
                 System.out.println(" ");
                 System.out.println("(1) Add an employee");
                 System.out.println("(2) View an employee");
@@ -77,7 +77,7 @@ public class EmployeeController {
                         break;
 
                     case 5:
-                        flag = true;
+                        exit = true;
                         break;
 
                     default:
@@ -100,7 +100,7 @@ public class EmployeeController {
         try {
             System.out.print("Enter name: ");
             String name = scanner.next();
-            if (!Validator.isValidName(name)) {
+            if (Validator.isValidName(name)) {
                 System.out.println("Invalid name");
                 return;
             }
@@ -108,13 +108,13 @@ public class EmployeeController {
             LocalDate dob = LocalDate.parse(scanner.next(), datetimeformatter);
             System.out.print("Enter Male(M) or Female(F): ");
             char gender = scanner.next().charAt(0);
-            if (!Validator.isValidGender(gender)) {
+            if (Validator.isValidGender(gender)) {
                 System.out.println("Enter valid gender");
                 return;
             }
             System.out.print("Enter mobile number: ");
             long phNum = scanner.nextLong();
-            if (!Validator.isValidNumber(phNum)) {
+            if (Validator.isValidNumber(phNum)) {
                 System.out.println("Invalid Phone Number");
                 return;
             }
@@ -152,7 +152,7 @@ public class EmployeeController {
         try {
             System.out.print("Enter Id Number : ");
             id = scanner.nextInt();
-            Employee employee = employeeService.getEmployee(id);
+            Employee employee = employeeService.getEmployeeById(id);
             System.out.println("Name : " + employee.getName());
             System.out.println("Department : " + employee.getDepartment().getName());
             System.out.println("Dob : " + employee.getDob());
@@ -178,12 +178,12 @@ public class EmployeeController {
         try {
             System.out.print("Enter Employee Id : ");
             id = scanner.nextInt();
-            Employee employee = employeeService.getEmployee(id);
+            Employee employee = employeeService.getEmployeeById(id);
             System.out.print("Name (");
             System.out.print(employee.getName());
             System.out.print(") :");
             String name = scanner.next();
-            if (!Validator.isValidName(name)) {
+            if (Validator.isValidName(name)) {
                 System.out.println("Invalid name");
                 return;
             }
@@ -198,7 +198,7 @@ public class EmployeeController {
             System.out.print(employee.getGender());
             System.out.print(") :");
             char gender = scanner.next().charAt(0);
-            if (!Validator.isValidGender(gender)) {
+            if (Validator.isValidGender(gender)) {
                 System.out.println("Enter valid gender");
             }
             employee.setGender(gender);
@@ -206,7 +206,7 @@ public class EmployeeController {
             System.out.print(employee.getPhoneNumber());
             System.out.print(") :");
             long phNum = scanner.nextLong();
-            if (!Validator.isValidNumber(phNum)) {
+            if (Validator.isValidNumber(phNum)) {
                 System.out.println("Invalid Phone Number");
             }
             employee.setPhoneNumber(phNum);

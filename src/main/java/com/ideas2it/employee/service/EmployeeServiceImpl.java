@@ -34,8 +34,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return 0;
     }
 
-    public Employee getEmployee(int id) throws EmployeeException {
-        return employeeDao.getEmployee(id);
+    public Employee getEmployeeById(int id) throws EmployeeException {
+        return employeeDao.getEmployeeById(id);
     }
 
     public void updateEmployee(Employee employee) throws EmployeeException {
